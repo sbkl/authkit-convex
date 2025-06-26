@@ -5,10 +5,9 @@ export const upsertFromWorkos = internalMutation({
   args: {
     email: v.string(),
     externalId: v.string(),
-    firstName: v.union(v.string(), v.null()),
-    lastName: v.union(v.string(), v.null()),
+    firstName: v.optional(v.union(v.string(), v.null())),
+    lastName: v.optional(v.union(v.string(), v.null())),
     emailVerified: v.boolean(),
-    verified: v.optional(v.string()),
   },
   async handler(
     ctx,
@@ -18,8 +17,8 @@ export const upsertFromWorkos = internalMutation({
     //   throw new ConvexError("User email is required");
     // }
     const userAttributes = {
-      firstName,
-      lastName,
+      firstName: firstName ?? null,
+      lastName: lastName ?? null,
       email,
       externalId,
       emailVerified,

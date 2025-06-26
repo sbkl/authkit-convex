@@ -11,7 +11,6 @@ export async function handleUserWebhooks(ctx: Context<HttpHonoEnv>) {
     switch (event.event) {
       case "user.created": // intentional fallthrough
       case "user.updated":
-        console.log("user", event.data);
         await ctx.env.runMutation(
           internal.users.internal.mutation.upsertFromWorkos,
           {
@@ -23,7 +22,24 @@ export async function handleUserWebhooks(ctx: Context<HttpHonoEnv>) {
           }
         );
         break;
-
+      case "authentication.magic_auth_succeeded":
+        const externalId = event.data.userId;
+        const email = event.data.email;
+        if (!externalId) {
+          throw new ConvexError("User ID is required");
+        }
+        if (!email) {
+          throw new ConvexError("Email is required");
+        }
+        await ctx.env.runMutation(
+          internal.users.internal.mutation.upsertFromWorkos,
+          {
+            externalId,
+            email,
+            emailVerified: true,
+          }
+        );
+        break;
       case "user.deleted": {
         const workosUserId = event.data.id!;
         await ctx.env.runMutation(
