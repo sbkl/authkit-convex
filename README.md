@@ -1,6 +1,10 @@
 # AuthKit-Convex example
 
-This is an example repo to setup AuthKit with convex within a nextjs project using MagicAuth OTP via email. Feeback welcome.
+This is an example repo to setup AuthKit with convex within a nextjs project using MagicAuth OTP via email.
+
+Single auth form that creates the user if it doens't exist and continue the auth flow.
+
+Feeback welcome.
 
 1- Install dependencies
 
@@ -8,15 +12,13 @@ This is an example repo to setup AuthKit with convex within a nextjs project usi
 pnpm i
 ```
 
-2- Insert your WORKOS_API_KEY and WORKOS_CLIENT_ID from your workos dashboard in both nextjs .env.local and convex dashboard
+2- Insert your `WORKOS_API_KEY` and `WORKOS_CLIENT_ID` from your workos dashboard in **both** nextjs `.env.local` and `convex dashboard`.
 
-3- While you are in your workos dashboard, go to Authentication > Sessions and make sure to add the audience claim to the same value than the applicationID in your auth.config.ts in your convex folder.
+3- While you are in your workos dashboard, go to Authentication > Sessions and make sure to add the audience claim ("aud") to the same value than the applicationID in your auth.config.ts in your convex folder.
 
-```json
+```
 {
-  // This is mandatory for convex integration to work
   "aud": "convex",
-  // Additonal fields your would like to add to JWT token
   "name": "{{ user.first_name }} {{ user.last_name }}",
   "email": {{user.email}},
   "picture": {{user.profile_picture_url}},
@@ -36,6 +38,7 @@ openssl rand -base64 24 | tr -dc 'a-zA-Z0-9' | head -c 32
 ```
 
 5- Workos Webhooks
+
 Sync your convex database with workos webhooks for the `users` table. In your workos dashboard, under the Developer section in the sidebar, go to webhooks and create a new webhook.
 
 Endpoint:
