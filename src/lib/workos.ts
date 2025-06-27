@@ -1,13 +1,13 @@
-export async function requestSignIn(email: string) {
+export async function requestSignIn(args: { email: string }) {
   return await fetch(`/api/auth/otp/request-sign-in`, {
     method: "POST",
-    body: JSON.stringify({ email }),
+    body: JSON.stringify(args),
   });
 }
 
-export async function signIn(email: string, code: string) {
+export async function signIn(args: { email: string; code: string }) {
   return await fetch(`/api/auth/otp/sign-in`, {
     method: "POST",
-    body: JSON.stringify({ email, code }),
+    body: JSON.stringify(args),
   });
 }

@@ -12,25 +12,26 @@ export const upsertFromWorkos = internalMutation({
 
     if (user === null) {
       return await ctx.db.insert("users", args);
-    } else {
-      return await ctx.db.patch(user._id, args);
     }
+    await ctx.db.patch(user._id, args);
+
+    return user._id;
   },
 });
 
 export const deleteFromWorkos = internalMutation({
-  args: { workosUserId: v.string() },
-  async handler(ctx, { workosUserId }) {
+  args: { externalId: v.string() },
+  async handler(ctx, { externalId }) {
     const user = await ctx.db
       .query("users")
-      .withIndex("externalId", (q) => q.eq("externalId", workosUserId))
+      .withIndex("externalId", (q) => q.eq("externalId", externalId))
       .first();
 
     if (user !== null) {
       await ctx.db.delete(user._id);
     } else {
       console.warn(
-        `Can't delete user, there is none for user ID: ${workosUserId}`
+        `Can't delete user, there is none for user ID: ${externalId}`
       );
     }
   },

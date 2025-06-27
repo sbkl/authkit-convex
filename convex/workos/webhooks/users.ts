@@ -9,7 +9,7 @@ export async function handleUserWebhooks(ctx: Context<HttpHonoEnv>) {
 
   try {
     switch (event.event) {
-      case "user.created": // intentional fallthrough
+      case "user.created":
       case "user.updated":
         await ctx.env.runMutation(
           internal.users.internal.mutation.upsertFromWorkos,
@@ -30,18 +30,17 @@ export async function handleUserWebhooks(ctx: Context<HttpHonoEnv>) {
           throw new ConvexError("User ID is required");
         }
         await ctx.env.runAction(
-          internal.workos.internal.action.upsertFromWorkos,
+          internal.users.internal.action.upsertFromWorkos,
           {
             externalId,
           }
         );
         break;
       case "user.deleted": {
-        const workosUserId = event.data.id!;
         await ctx.env.runMutation(
           internal.users.internal.mutation.deleteFromWorkos,
           {
-            workosUserId,
+            externalId: event.data.id,
           }
         );
         break;

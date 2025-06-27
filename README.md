@@ -1,6 +1,8 @@
 # AuthKit-Convex example
 
-This is an example repo to setup AuthKit with convex within a nextjs project using MagicAuth OTP via email and google as an example for the oauth flow.
+This is an example repo to setup AuthKit with convex within a nextjs project using MagicAuth OTP via email, google as an example for the oauth flow and SSO.
+
+> For SSO, the domain check to find the right organizationId happens within convex so you need to make sure the organisation you test against exist within convex with the right organisationDomain of the user email you want to test.
 
 Single auth form that creates the user if it doens't exist and continue the auth flow.
 
@@ -59,7 +61,7 @@ Below command in your terminal to generate such a key
 openssl rand -base64 32
 ```
 
-8- Workos Webhooks
+8- Workos Webhooks for users
 
 Sync your convex database with workos webhooks for the `users` table. In your workos dashboard, under the Developer section in the sidebar, go to webhooks and create a new webhook.
 
@@ -85,9 +87,27 @@ Events to listen for:
 - authentication.magic_auth_succeeded
 - authentication.oauth_succeeded
 
-In case the user email is already with another app you tested, we listen for authentication success for magic_auth and oauth to create the user if it doesn't exist.
+9- Workos Webhooks for organisations if you use SSO
 
-Once the webhook is created, make sure to copy the Signing Secret and set it up as an environment variable in the convex dashboard with the name `WORKOS_WEBHOOK_USERS_SECRET`.
+Sync your convex database with workos webhooks for the `organisations` and `organisationDomains` tables. Make sure to enable SSO under `Authentication` in your workos dashboard. Then, under the Developer section in the sidebar, go to webhooks and create a new webhook.
+
+Full endpoint:
+
+```
+https://<your-convex-slug>.convex.site/workos-webhooks/organisations
+```
+
+Replace `<your-convex-slug>` with your actual convex slug.
+
+Events to listen for:
+
+- organization.created
+- organization.updated
+- organization.deleted
+- organization_domain.verified
+- organization_domain.verification_failed
+
+Once the webhook is created, make sure to copy the Signing Secret and set it up as an environment variable in the convex dashboard with the name `WORKOS_WEBHOOK_ORGANISATIONS_SECRET`.
 
 From now, the deployment to convex should be successful as all mandatory environment variables are set.
 
