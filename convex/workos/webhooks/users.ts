@@ -19,24 +19,20 @@ export async function handleUserWebhooks(ctx: Context<HttpHonoEnv>) {
             emailVerified: event.data.emailVerified,
             firstName: event.data.firstName,
             lastName: event.data.lastName,
+            profilePictureUrl: event.data.profilePictureUrl,
           }
         );
         break;
       case "authentication.magic_auth_succeeded":
+      case "authentication.oauth_succeeded":
         const externalId = event.data.userId;
-        const email = event.data.email;
         if (!externalId) {
           throw new ConvexError("User ID is required");
         }
-        if (!email) {
-          throw new ConvexError("Email is required");
-        }
-        await ctx.env.runMutation(
-          internal.users.internal.mutation.upsertFromWorkos,
+        await ctx.env.runAction(
+          internal.workos.internal.action.upsertFromWorkos,
           {
             externalId,
-            email,
-            emailVerified: true,
           }
         );
         break;

@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 
 import { requestSignIn, signIn } from "@/lib/workos";
 import { useAuth } from "@workos-inc/authkit-nextjs/components";
+import { Icon } from "../ui/icon";
 
 const emailFormSchema = z.object({
   email: z.string().email("Invalid email").toLowerCase(),
@@ -21,7 +22,11 @@ const codeFormSchema = emailFormSchema.extend({
   code: z.string().length(6, "Invalid code"),
 });
 
-export function AuthForm() {
+interface AuthFormProps {
+  googleOAuthUrl: string;
+}
+
+export function AuthForm({ googleOAuthUrl }: AuthFormProps) {
   const router = useRouter();
   const [step, setStep] = React.useState<"email" | "code">("email");
   const [redirecting, setRedirecting] = React.useState(false);
@@ -177,6 +182,27 @@ export function AuthForm() {
           </div>
         )}
       </form>
+      <div className="flex items-center justify-center">
+        <div className="h-[1px] w-full bg-muted" />
+        <span className="mx-4 text-sm font-medium uppercase text-muted-foreground">
+          Or
+        </span>
+        <div className="h-[1px] w-full bg-muted" />
+      </div>
+      <GoogleSignInButton googleOAuthUrl={googleOAuthUrl} />
+    </div>
+  );
+}
+
+function GoogleSignInButton({ googleOAuthUrl }: { googleOAuthUrl: string }) {
+  return (
+    <div>
+      <Button type="button" className="w-full" variant="outline" asChild>
+        <a href={googleOAuthUrl}>
+          <Icon name="GoogleLogoIcon" className="mr-2 h-5 w-5" /> Sign in with
+          Google
+        </a>
+      </Button>
     </div>
   );
 }

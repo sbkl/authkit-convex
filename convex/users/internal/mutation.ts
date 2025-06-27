@@ -1,40 +1,19 @@
 import { v } from "convex/values";
 import { internalMutation } from "../../functions";
+import { Users } from "../table";
 
 export const upsertFromWorkos = internalMutation({
-  args: {
-    email: v.string(),
-    externalId: v.string(),
-    firstName: v.optional(v.union(v.string(), v.null())),
-    lastName: v.optional(v.union(v.string(), v.null())),
-    emailVerified: v.boolean(),
-  },
-  async handler(
-    ctx,
-    { externalId, email, emailVerified, firstName, lastName }
-  ) {
-    // if (!email || !emailVerified) {
-    //   throw new ConvexError("User email is required");
-    // }
-    const userAttributes = {
-      firstName: firstName ?? null,
-      lastName: lastName ?? null,
-      email,
-      externalId,
-      emailVerified,
-    };
-
+  args: Users.withoutSystemFields,
+  async handler(ctx, args) {
     const user = await ctx.db
       .query("users")
-      .withIndex("externalId", (q) => q.eq("externalId", externalId))
+      .withIndex("externalId", (q) => q.eq("externalId", args.externalId))
       .first();
 
     if (user === null) {
-      return await ctx.db.insert("users", {
-        ...userAttributes,
-      });
+      return await ctx.db.insert("users", args);
     } else {
-      return await ctx.db.patch(user._id, userAttributes);
+      return await ctx.db.patch(user._id, args);
     }
   },
 });

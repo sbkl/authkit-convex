@@ -1,6 +1,6 @@
 # AuthKit-Convex example
 
-This is an example repo to setup AuthKit with convex within a nextjs project using MagicAuth OTP via email.
+This is an example repo to setup AuthKit with convex within a nextjs project using MagicAuth OTP via email and google as an example for the oauth flow.
 
 Single auth form that creates the user if it doens't exist and continue the auth flow.
 
@@ -82,7 +82,10 @@ Events to listen for:
 - user.created
 - user.updated
 - user.deleted
-- authentication.magic_auth_succeeded (in case the user email is already with another app you tested, we listen for authentication success to create the user if it doesn't exist)
+- authentication.magic_auth_succeeded
+- authentication.oauth_succeeded
+
+In case the user email is already with another app you tested, we listen for authentication success for magic_auth and oauth to create the user if it doesn't exist.
 
 Once the webhook is created, make sure to copy the Signing Secret and set it up as an environment variable in the convex dashboard with the name `WORKOS_WEBHOOK_USERS_SECRET`.
 

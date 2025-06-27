@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -64,8 +65,30 @@ export default function Home() {
         </div>
       </Unauthenticated>
       <Authenticated>
-        <div className="h-16 border-b w-full fixed top-0 left-0 right-0 flex items-center justify-between px-4 bg-white z-10">
-          <span>Logged in as {me?.email}</span>
+        <div className="h-16 border-b w-full fixed top-0 left-0 right-0 flex items-center px-4 bg-background z-10 gap-6">
+          <div className="ml-auto flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+            <Avatar className="h-8 w-8">
+              <AvatarImage
+                src={me?.profilePictureUrl ?? ""}
+                alt="Profile picture"
+              />
+              <AvatarFallback>
+                {me?.firstName
+                  ? `${me?.firstName?.charAt(0)}${me?.lastName?.charAt(0)}`.toUpperCase()
+                  : me?.email?.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-medium">
+                {me?.firstName ? `${me.firstName} ${me.lastName}` : me?.email}
+              </span>
+              {me?.firstName ? (
+                <span className="truncate text-xs font-normal text-muted-foreground">
+                  {me?.email}
+                </span>
+              ) : null}
+            </div>
+          </div>
           <Button variant="outline" onClick={() => void signOut()}>
             Sign out
           </Button>

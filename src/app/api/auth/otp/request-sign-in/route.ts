@@ -2,8 +2,9 @@ import { WorkOS } from "@workos-inc/node";
 import { Resend as ResendAPI } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
+const workos = new WorkOS(process.env.WORKOS_API_KEY);
+
 export async function POST(req: NextRequest) {
-  const workos = new WorkOS(process.env.WORKOS_API_KEY);
   const { email } = await req.json();
 
   const { code } = await workos.userManagement.createMagicAuth({

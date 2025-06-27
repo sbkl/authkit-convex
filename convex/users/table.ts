@@ -7,4 +7,5 @@ export const Users = Table("users", {
   firstName: v.union(v.string(), v.null()),
   lastName: v.union(v.string(), v.null()),
   emailVerified: v.boolean(),
+  profilePictureUrl: v.optional(v.union(v.string(), v.null())),
 });

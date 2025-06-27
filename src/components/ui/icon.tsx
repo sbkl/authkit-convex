@@ -10,6 +10,7 @@ import { PhoneIcon } from "./icons/phone-icon";
 import { ShoppingCartIcon } from "./icons/shopping-cart";
 import { SnowCapIcon } from "./icons/snowcap";
 import { ExcelIcon } from "./icons/excel-icon";
+import { GoogleLogoIcon } from "./icons/google-logo-icon";
 // Extend IconName to include our custom icons
 export type IconName =
   | keyof typeof RadixIcons
@@ -19,7 +20,8 @@ export type IconName =
   | "PhoneIcon"
   | "ShoppingCartIcon"
   | "SnowCapIcon"
-  | "ExcelIcon";
+  | "ExcelIcon"
+  | "GoogleLogoIcon";
 
 // Combine Radix icons with our custom icons
 const iconMap: Record<IconName, React.ComponentType<IconProps>> = {
@@ -31,6 +33,7 @@ const iconMap: Record<IconName, React.ComponentType<IconProps>> = {
   ShoppingCartIcon,
   SnowCapIcon,
   ExcelIcon,
+  GoogleLogoIcon,
 } as Record<IconName, React.ComponentType<IconProps>>;
 
 export function Icon({ name, ...props }: { name: IconName } & IconProps) {
