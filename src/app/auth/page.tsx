@@ -8,7 +8,7 @@ export default function AuthPage() {
   const googleOAuthUrl = workos.userManagement.getAuthorizationUrl({
     clientId: z.string().parse(process.env.WORKOS_CLIENT_ID),
     provider: "GoogleOAuth",
-    redirectUri: z.string().parse(process.env.WORKOS_REDIRECT_URI),
+    redirectUri: z.string().parse(process.env.OAUTH_REDIRECT_URI),
   });
 
   return (
