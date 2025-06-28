@@ -1,8 +1,9 @@
+import type { HttpHonoEnv } from "../../types";
+
 import { ConvexError } from "convex/values";
 import { Context } from "hono";
 
 import { internal } from "../../_generated/api";
-import { HttpHonoEnv } from "../../types";
 import { organisationDomainStatusValueSchema } from "../../../schemas/workos";
 
 export async function handleOrganisationWebhooks(ctx: Context<HttpHonoEnv>) {

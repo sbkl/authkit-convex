@@ -1,14 +1,15 @@
-import { Context, Next } from "hono";
+import type { Context, Next } from "hono";
+import type { HttpHonoEnv } from "../../types";
+
 import { createMiddleware } from "hono/factory";
-import { internal } from "../_generated/api";
-import { webhookTypeValueSchema } from "../../schemas/workos";
+import { internal } from "../../_generated/api";
 
-import { z } from "zod";
-import { HttpHonoEnv } from "../types";
-
-export const workosMiddleware = (
-  type: z.infer<typeof webhookTypeValueSchema>
-) =>
+/**
+ * Middleware to verify a WorkOS webhook event.
+ * @param secret - The signing secret of the webhook event.
+ * @returns The middleware function.
+ */
+export const workosWebhookMiddleware = (secret: string) =>
   createMiddleware<HttpHonoEnv>(
     async (ctx: Context<HttpHonoEnv>, next: Next) => {
       const request = ctx.req;
@@ -21,7 +22,7 @@ export const workosMiddleware = (
           {
             payload: bodyText,
             signature: sigHeader,
-            type,
+            secret,
           }
         );
         ctx.set("workosEvent", result);

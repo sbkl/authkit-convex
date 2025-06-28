@@ -17,7 +17,6 @@ import type * as controllers_workosWebhooksController from "../controllers/worko
 import type * as env from "../env.js";
 import type * as functions from "../functions.js";
 import type * as http from "../http.js";
-import type * as middlewares_workos from "../middlewares/workos.js";
 import type * as organisationDomains_internal_mutation from "../organisationDomains/internal/mutation.js";
 import type * as organisations_internal_mutation from "../organisations/internal/mutation.js";
 import type * as organisations_internal_query from "../organisations/internal/query.js";
@@ -34,6 +33,7 @@ import type * as users_table from "../users/table.js";
 import type * as users_utils from "../users/utils.js";
 import type * as workos_action from "../workos/action.js";
 import type * as workos_internal_action from "../workos/internal/action.js";
+import type * as workos_webhooks_middleware from "../workos/webhooks/middleware.js";
 import type * as workos_webhooks_organisations from "../workos/webhooks/organisations.js";
 import type * as workos_webhooks_users from "../workos/webhooks/users.js";
 
@@ -50,7 +50,6 @@ declare const fullApi: ApiFromModules<{
   env: typeof env;
   functions: typeof functions;
   http: typeof http;
-  "middlewares/workos": typeof middlewares_workos;
   "organisationDomains/internal/mutation": typeof organisationDomains_internal_mutation;
   "organisations/internal/mutation": typeof organisations_internal_mutation;
   "organisations/internal/query": typeof organisations_internal_query;
@@ -67,6 +66,7 @@ declare const fullApi: ApiFromModules<{
   "users/utils": typeof users_utils;
   "workos/action": typeof workos_action;
   "workos/internal/action": typeof workos_internal_action;
+  "workos/webhooks/middleware": typeof workos_webhooks_middleware;
   "workos/webhooks/organisations": typeof workos_webhooks_organisations;
   "workos/webhooks/users": typeof workos_webhooks_users;
 }>;

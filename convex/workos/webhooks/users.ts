@@ -2,7 +2,7 @@ import { ConvexError } from "convex/values";
 import { Context } from "hono";
 
 import { internal } from "../../_generated/api";
-import { HttpHonoEnv } from "../../types";
+import type { HttpHonoEnv } from "../../types";
 
 export async function handleUserWebhooks(ctx: Context<HttpHonoEnv>) {
   const event = ctx.var.workosEvent;
